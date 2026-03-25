@@ -68,7 +68,9 @@ sns.barplot(
     data=iris,
     x='species',
     y='sepal length (cm)',
-    palette='bright'
+    hue='species',
+    palette='bright',
+    legend=False
 )
 plt.title('Bar Chart of Sepal Length by Species')
 plt.xlabel('Species')
