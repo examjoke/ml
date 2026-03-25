@@ -1,0 +1,128 @@
+#Lab4
+import pandas as pd
+
+
+def explore_csv(file_path):
+    print("\nExploring CSV file:", file_path)
+    
+    data_csv = pd.read_csv(file_path)
+    
+    print("\nFirst 5 rows:\n", data_csv.head())
+    print("\nData types:\n", data_csv.dtypes)
+    print("\nShape of the dataset:\n", data_csv.shape)
+    print("\nColumns of the dataset:\n", data_csv.columns)
+    print("\nSummary of statistics:\n", data_csv.describe())
+    print("\nDataFrame Info:")
+    data_csv.info()
+
+
+
+def explore_excel(file_path):
+    print("\nExploring Excel file:", file_path)
+    
+    data_excel = pd.read_excel(file_path)
+    
+    print("\nFirst 5 rows:\n", data_excel.head())
+    print("\nData types:\n", data_excel.dtypes)
+    print("\nShape of the dataset:\n", data_excel.shape)
+    print("\nColumns of the dataset:\n", data_excel.columns)
+    print("\nSummary of statistics:\n", data_excel.describe())
+    print("\nDataFrame Info:")
+    data_excel.info()
+
+
+explore_csv('iris.csv')
+explore_excel('iris.xlsx')
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+#Lab5
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+
+iris_data = load_iris()
+
+iris = pd.DataFrame(iris_data.data, columns=iris_data.feature_names)
+
+iris['species'] = iris_data.target
+
+sns.scatterplot(
+    data=iris,
+    x='petal length (cm)',
+    y='petal width (cm)',
+    hue='species',
+    palette='bright'
+)
+plt.title('Petal Length vs Petal Width by Species')
+plt.xlabel('Petal Length (cm)')
+plt.ylabel('Petal Width (cm)')
+plt.legend(title='Species')
+plt.show()
+
+
+sns.barplot(
+    data=iris,
+    x='species',
+    y='sepal length (cm)',
+    palette='bright'
+)
+plt.title('Bar Chart of Sepal Length by Species')
+plt.xlabel('Species')
+plt.ylabel('Sepal Length (cm)')
+plt.show()
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+#lab6
+
+import numpy as np
+import pandas as pd
+from IPython.display import display
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.impute import SimpleImputer
+
+data = {
+    'Age': [25, 30, np.nan, 35, 40, 22, 50, np.nan, 28, 33],
+    'Salary': [50000, 60000, 70000, np.nan, 90000, 40000, np.nan, 85000, 65000, 72000],
+    'Gender': ['Male', 'Female', 'Female', 'Male', 'Female', 'Male', 'Male', 'Female', 'Female', 'Male'],
+    'Purchased': ['Yes', 'No', 'Yes', 'No', 'No', 'No', 'Yes', 'No', 'Yes', 'No']
+}
+
+df = pd.DataFrame(data)
+
+print("Original DataFrame:")
+print(df)
+
+imputer_num = SimpleImputer(strategy='mean')
+df[['Age', 'Salary']] = imputer_num.fit_transform(df[['Age', 'Salary']])
+
+le_gender = LabelEncoder()
+df['Gender'] = le_gender.fit_transform(df['Gender'])
+
+le_purchased = LabelEncoder()
+df['Purchased'] = le_purchased.fit_transform(df['Purchased'])
+
+X = df.drop(columns=['Purchased'])
+y = df['Purchased']
+
+X_train, X_test, y_train, y_test = train_test_split( X, y, test_size=0.2, random_state=42)
+
+scaler = StandardScaler()
+X_train[['Age', 'Salary']] = scaler.fit_transform(X_train[['Age', 'Salary']])
+X_test[['Age', 'Salary']] = scaler.transform(X_test[['Age', 'Salary']])
+
+print("\nPreprocessed Training Data:")
+print(X_train.reset_index(drop=True))
+
+print("\nTransformed Target Variable:")
+print(y_train)
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
