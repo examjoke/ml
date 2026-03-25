@@ -1,0 +1,141 @@
+# Ml Pipeline Sample
+
+# 1) Iris_load File
+
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+import pandas as pd
+
+# Load Iris dataset
+iris = load_iris()
+
+X = iris.data
+y = iris.target
+
+# Display dataset details
+print("Target Names:", iris.target_names)
+print("Feature Names:", iris.feature_names)
+print("Shape of X:", X.shape)
+print("Shape of y:", y.shape)
+
+# Convert to DataFrame
+iris_df = pd.DataFrame(X, columns=iris.feature_names)
+iris_df["Species"] = pd.Categorical.from_codes(y, iris.target_names)
+
+print(iris_df.head())
+
+# Step 2: Split dataset
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=42
+)
+
+print("X_train shape:", X_train.shape)
+print("X_test shape:", X_test.shape)
+print("y_train shape:", y_train.shape)
+print("y_test shape:", y_test.shape)
+
+# Step 3: Create and Train Decision Tree
+model = DecisionTreeClassifier()
+model.fit(X_train, y_train)
+
+# Step 4: Prediction and Evaluation
+predictions = model.predict(X_test)
+
+accuracy = accuracy_score(y_test, predictions)
+print("Accuracy:", accuracy)
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+#2) Program of own Placement Data
+
+Open Notepad -> paste this as placement.csv
+
+Names,CGPA,Aptitude Score,Placement
+Anish,8.2,78,Yes
+Rahul,7.5,65,No
+Priya,9.1,88,Yes
+Kiran,6.8,55,No
+Sneha,8.5,80,Yes
+Arjun,7.2,60,No
+Meena,9.3,90,Yes
+Ravi,6.5,50,No
+Pooja,8.7,85,Yes
+Vikram,7.0,58,No
+Amit,8.0,75,Yes
+Neha,6.9,57,No
+Rohit,8.3,79,Yes
+Divya,7.4,62,No
+Suresh,9.0,87,Yes
+Kavya,8.6,82,Yes
+Manoj,6.7,54,No
+Deepa,8.9,86,Yes
+Nikhil,7.1,59,No
+Swati,8.4,81,Yes
+
+and upload the file in current directory Folder
+
+
+Code:-
+
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# ML imports
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+
+# Load dataset
+df = pd.read_csv('placement.csv')
+
+# Clean column names (VERY IMPORTANT)
+df.columns = df.columns.str.strip()
+
+# Preview
+print(df.head())
+df.info()
+
+# Convert Placement to numeric
+df['Placement'] = df['Placement'].replace({"Yes": 1, "No": 0}).astype(int)
+
+# Scatter plot
+plt.scatter(df['CGPA'], df['Aptitude Score'], c=df['Placement'])
+plt.xlabel('CGPA')
+plt.ylabel('Aptitude Score')
+plt.title('Placement Visualization')
+plt.show()
+
+# Features and target
+X = df.drop(['Placement', 'Names'], axis=1)
+y = df['Placement']
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# Scaling
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+# Model
+clf = LogisticRegression()
+clf.fit(X_train, y_train)
+
+# Prediction
+y_pred = clf.predict(X_test)
+
+# Accuracy
+print("Accuracy:", accuracy_score(y_test, y_pred))
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
