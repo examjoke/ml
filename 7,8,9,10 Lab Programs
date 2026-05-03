@@ -1,0 +1,198 @@
+# LAB - 7
+# Implement K-Nearest Neighbors (K-NN) classifier using scikit-learn
+# Train on Iris dataset and evaluate performance
+
+import numpy as np
+import pandas as pd
+
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+
+# Load dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Split dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# Set value of K
+k = 3
+
+# Create KNN classifier
+knn_classifier = KNeighborsClassifier(n_neighbors=k)
+
+# Train the model
+knn_classifier.fit(X_train, y_train)
+
+# Make predictions
+y_pred = knn_classifier.predict(X_test)
+
+# Evaluate performance
+accuracy = accuracy_score(y_test, y_pred)
+
+print("Accuracy:", accuracy)
+print("\nClassification Report:\n", classification_report(y_test, y_pred))
+
+# Confusion Matrix
+cm = confusion_matrix(y_test, y_pred)
+print("Confusion Matrix for KNN on Iris Dataset:")
+print(cm)
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+# LAB - 8
+# Build a Linear Regression model for regression tasks
+
+import numpy as np
+from sklearn.linear_model import LinearRegression
+
+# Sample dataset (size in sqft, number of bedrooms)
+X = np.array([
+    [1500, 3],
+    [1200, 2],
+    [1800, 4],
+    [1000, 1],
+    [1400, 3]
+])
+
+# House prices (in some units)
+y = np.array([200, 150, 220, 130, 190])
+
+# Create and train the model
+model = LinearRegression()
+model.fit(X, y)
+
+# Take user input
+new_size = float(input("Enter the size of the house: "))
+new_bedroom = float(input("Enter the number of bedrooms: "))
+
+# Predict price
+predicted_price = model.predict([[new_size, new_bedroom]])
+
+# Output
+print("Predicted Price:", predicted_price[0])
+print(f"Predicted price for a house with size {new_size} sq.ft and {new_bedroom} bedrooms is: {predicted_price[0]}")
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# LAB - 9
+# Implement Decision Tree Classifier and visualize it
+
+import numpy as np
+import pandas as pd
+
+from sklearn.model_selection import train_test_split
+from sklearn.datasets import load_iris
+from sklearn.metrics import accuracy_score
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+
+import matplotlib.pyplot as plt
+
+# Load dataset
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+# Split dataset
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# Create Decision Tree model
+decision_tree = DecisionTreeClassifier()
+
+# Train model
+decision_tree.fit(X_train, y_train)
+
+# Predictions
+y_pred = decision_tree.predict(X_test)
+
+# Accuracy
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy:", accuracy)
+
+# Visualize the decision tree
+plt.figure(figsize=(15, 10))
+plot_tree(
+    decision_tree,
+    feature_names=iris.feature_names,
+    class_names=iris.target_names,
+    filled=True
+)
+plt.title("Decision Tree for Iris Dataset")
+plt.show()
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+# LAB - 10
+# Implement K-Means clustering and visualize clusters
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+import warnings
+
+# Ignore warnings
+warnings.filterwarnings("ignore")
+
+# Sample dataset (Age, Income)
+X = np.array([
+    [30, 50000],
+    [35, 60000],
+    [40, 80000],
+    [25, 50000],
+    [45, 100000],
+    [20, 20000],
+    [50, 120000],
+    [55, 150000],
+    [60, 160000],
+    [28, 40000]
+])
+
+# Create KMeans model
+kmeans = KMeans(n_clusters=3, random_state=0)
+
+# Fit model
+kmeans.fit(X)
+
+# Get labels and cluster centers
+labels = kmeans.labels_
+centers = kmeans.cluster_centers_
+
+# Plot clusters
+plt.figure(figsize=(8, 6))
+
+# Plot data points
+plt.scatter(X[:, 0], X[:, 1], c=labels, s=100, alpha=0.8)
+
+# Plot centroids
+plt.scatter(
+    centers[:, 0],
+    centers[:, 1],
+    c='red',
+    s=200,
+    marker='X',
+    label='Centroids'
+)
+
+# Labels and title
+plt.xlabel("Age")
+plt.ylabel("Income")
+plt.title("K-Means Clustering of Customers")
+plt.legend()
+
+# Show plot
+plt.show()
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
