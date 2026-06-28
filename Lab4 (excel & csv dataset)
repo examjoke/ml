@@ -1,0 +1,33 @@
+#Lab4
+
+import pandas as pd
+def explore_csv(file_path):
+    print("\nExploring CSV file:", file_path)
+    
+    data_csv = pd.read_csv(file_path)
+    
+    print("\nFirst 5 rows:\n", data_csv.head())
+    print("\nData types:\n", data_csv.dtypes)
+    print("\nShape of the dataset:\n", data_csv.shape)
+    print("\nColumns of the dataset:\n", data_csv.columns)
+    print("\nSummary of statistics:\n", data_csv.describe())
+    print("\nDataFrame Info:")
+    data_csv.info()
+
+def explore_excel(file_path):
+    print("\nExploring Excel file:", file_path)
+    
+    data_excel = pd.read_excel(file_path)
+    
+    print("\nFirst 5 rows:\n", data_excel.head())
+    print("\nData types:\n", data_excel.dtypes)
+    print("\nShape of the dataset:\n", data_excel.shape)
+    print("\nColumns of the dataset:\n", data_excel.columns)
+    print("\nSummary of statistics:\n", data_excel.describe())
+    print("\nDataFrame Info:")
+    data_excel.info()
+
+
+# Function calls
+explore_csv('Iris.csv')
+explore_excel('Iris.xlsx')
