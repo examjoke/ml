@@ -1,0 +1,25 @@
+# LAB - 8
+# Build a Linear Regression model for regression tasks
+
+import numpy as np
+from sklearn.linear_model import LinearRegression
+
+X = np.array([
+    [1500, 3],
+    [1200, 2],
+    [1800, 4],
+    [1000, 1],
+    [1400, 3]
+])
+y = np.array([200, 150, 220, 130, 190])
+
+model = LinearRegression()
+model.fit(X, y)
+
+new_size = float(input("Enter the size of the house: "))
+new_bedroom = float(input("Enter the number of bedrooms: "))
+
+predicted_price = model.predict([[new_size, new_bedroom]])
+
+print("Predicted Price:", predicted_price[0])
+print(f"Predicted price for a house with size {new_size} sq.ft and {new_bedroom} bedrooms is: {predicted_price[0]}")
