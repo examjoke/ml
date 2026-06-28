@@ -1,0 +1,44 @@
+#Lab6
+
+import numpy as np
+import pandas as pd
+from IPython.display import display
+from sklearn.preprocessing import LabelEncoder, StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.impute import SimpleImputer
+
+data = {
+    'Age': [25, 30, np.nan, 35, 40, 22, 50, np.nan, 28, 33],
+    'Salary': [50000, 60000, 70000, np.nan, 90000, 40000, np.nan, 85000, 65000, 72000],
+    'Gender': ['Male', 'Female', 'Female', 'Male', 'Female', 'Male', 'Male', 'Female', 'Female', 'Male'],
+    'Purchased': ['Yes', 'No', 'Yes', 'No', 'No', 'No', 'Yes', 'No', 'Yes', 'No']
+}
+
+df = pd.DataFrame(data)
+
+print("Original DataFrame:")
+print(df)
+
+imputer_num = SimpleImputer(strategy='mean')
+df[['Age', 'Salary']] = imputer_num.fit_transform(df[['Age', 'Salary']])
+
+le_gender = LabelEncoder()
+df['Gender'] = le_gender.fit_transform(df['Gender'])
+
+le_purchased = LabelEncoder()
+df['Purchased'] = le_purchased.fit_transform(df['Purchased'])
+
+X = df.drop(columns=['Purchased'])
+y = df['Purchased']
+
+X_train, X_test, y_train, y_test = train_test_split( X, y, test_size=0.2, random_state=42)
+
+scaler = StandardScaler()
+X_train[['Age', 'Salary']] = scaler.fit_transform(X_train[['Age', 'Salary']])
+X_test[['Age', 'Salary']] = scaler.transform(X_test[['Age', 'Salary']])
+
+print("\nPreprocessed Training Data:")
+print(X_train.reset_index(drop=True))
+
+print("\nTransformed Target Variable:")
+print(y_train)
