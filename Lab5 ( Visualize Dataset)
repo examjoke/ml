@@ -1,0 +1,44 @@
+#Lab5
+
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+
+# Load dataset
+iris_data = load_iris()
+
+
+iris = pd.DataFrame(iris_data.data, columns=iris_data.feature_names)
+
+
+iris['species'] = iris_data.target
+
+
+
+sns.scatterplot(
+    data=iris,
+    x='petal length (cm)',
+    y='petal width (cm)',
+    hue='species',
+    palette='bright'
+)
+plt.title('Petal Length vs Petal Width by Species')
+plt.xlabel('Petal Length (cm)')
+plt.ylabel('Petal Width (cm)')
+plt.legend(title='Species')
+plt.show()
+
+
+sns.barplot(
+    data=iris,
+    x='species',
+    y='sepal length (cm)',
+    hue='species',
+    palette='bright',
+    legend=False
+)
+plt.title('Bar Chart of Sepal Length by Species')
+plt.xlabel('Species')
+plt.ylabel('Sepal Length (cm)')
+plt.show()
