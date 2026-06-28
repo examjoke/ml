@@ -1,0 +1,16 @@
+#Lab prg 1
+
+  import sys
+  print("Python version")
+  print(sys.version)
+
+-------------------------------------------------
+
+!pip --version
+
+------------------------------------------------
+
+import pandas as pd
+import numpy as np
+print(np.__version__);
+print(pd.__version__);
